@@ -6,6 +6,17 @@ var game = new Phaser.Game(win.width, win.height, Phaser.AUTO, 'Bumblebee_Flight
 
 var bee;
 var beeSize = 1;
+var Bee = {
+  MAX_SIZE: 0.5,
+  MIN_SIZE: 0.2,
+  GROWTH_STEP: 0.01,
+  Velocity: {
+    UP: -250,
+    DOWN: 150,
+    RIGHT: 250
+  }
+
+};
 var barriers;
 
 function preload() {
@@ -17,15 +28,16 @@ function preload() {
 function create() {
   bee = game.add.sprite(60, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
+  bee.scale.setTo(0.5, 0.5);
 
   song = game.add.audio('song');
   song.play();
 
   // barrier props
   var barrierConfig = {
-    width: 80,
+    width: 60,
     height: 200,
-    variance: 70
+    variance: 100
   };
   // group to hold barriers
   barriers = game.add.group();
@@ -43,13 +55,15 @@ function update() {
   game.physics.collide(bee, barriers);
 
   if(game.input.mousePointer.isDown) {
-    shrinkBee();
+    expandBee();
+    bee.body.velocity.y = Bee.Velocity.UP;
   }
   else if(game.input.mousePointer.isUp) {
-    expandBee();
+    shrinkBee();
+    bee.body.velocity.y = Bee.Velocity.DOWN;
   }
 
-  bee.body.velocity.x = 170;
+  bee.body.velocity.x = Bee.Velocity.RIGHT;
 
 }
 
@@ -57,15 +71,15 @@ function render() {
 }
 
 function shrinkBee() {
-  if (beeSize > .2) {
+  if (beeSize > Bee.MIN_SIZE) {
     beeSize = beeSize - .1;
     bee.scale.setTo(beeSize, beeSize);
   }
 }
 
 function expandBee() {
-  if (beeSize < 1) {
-    beeSize = beeSize + .1;
+  if (beeSize < Bee.MAX_SIZE) {
+    beeSize = beeSize + Bee.GROWTH_STEP;
     bee.scale.setTo(beeSize, beeSize);
   }
 }
