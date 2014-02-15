@@ -1,8 +1,14 @@
-var win = {
-  width: 800,
-  height: 600
+var Win = {
+  WIDTH: 800,
+  HEIGHT: 600
 };
-var game = new Phaser.Game(win.width, win.height, Phaser.AUTO, 'Bumblebee_Flight', { preload: preload, create: create, update: update, render: render});
+
+var World = {
+  WIDTH: 25000,
+  HEIGHT: Win.HEIGHT
+};
+
+var game = new Phaser.Game(Win.WIDTH, Win.HEIGHT, Phaser.AUTO, 'Bumblebee_Flight', { preload: preload, create: create, update: update, render: render});
 
 var bee;
 var beeSize = 1;
@@ -26,9 +32,13 @@ function preload() {
 }
 
 function create() {
+  game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
+
   bee = game.add.sprite(60, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
   bee.scale.setTo(0.5, 0.5);
+
+  game.camera.follow(bee);
 
   song = game.add.audio('song');
   song.play();
@@ -42,7 +52,7 @@ function create() {
   // group to hold barriers
   barriers = game.add.group();
   //generage barriers
-  for(var i = barrierConfig.width; i < win.width; i+= (barrierConfig.width * 1.5 + generateVariance(barrierConfig.width))) {
+  for(var i = barrierConfig.width; i < World.WIDTH; i+= (barrierConfig.width * 1.5 + generateVariance(barrierConfig.width))) {
     //create bottom barrier
     createBarrier(barrierConfig, i, true);
     //create corresponding top barrier
@@ -93,7 +103,7 @@ function createBarrier(barrierConfig, xCoord, isBottom) {
   var randomHeight = barrierConfig.height + generateVariance(barrierConfig.variance);
   var yCoord = 0;
   if(isBottom) {
-    yCoord = win.height - randomHeight;
+    yCoord = Win.HEIGHT - randomHeight;
   }
 
 //  wall.drawRect(xCoord, yCoord, barrierConfig.width, randomHeight);
