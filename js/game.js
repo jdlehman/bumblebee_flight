@@ -11,6 +11,7 @@ var cursors;
 
 function preload() {
   game.load.image('bee', 'assets/bumblebee.png');
+  game.load.image('wall', 'assets/bumblebee_wall.png');
 }
 
 function create() {
@@ -95,15 +96,13 @@ function createBarrier(barrierConfig, xCoord, isBottom) {
     yCoord = win.height - randomHeight;
   }
 
-  var wall = new Phaser.Graphics(game, 0,0);
-  wall.beginFill(0xFFFFFF);
-  wall.lineStyle(10, 0xFFFFFF, 1);
-  wall.drawRect(xCoord, yCoord, barrierConfig.width, randomHeight);
-  wall.endFill();
+//  wall.drawRect(xCoord, yCoord, barrierConfig.width, randomHeight);
 
-  var barrier = game.add.sprite(0, 0, null);
-
-  barrier.addChild(wall);
+  var barrier = game.add.sprite(0, 0, 'wall');
+  barrier.x = xCoord;
+  barrier.y = yCoord;
+  barrier.height = randomHeight;
+  barrier.width = barrierConfig.width;
   barrier.body.immovable = true;
   barriers.add(barrier);
 }
