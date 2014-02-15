@@ -1,7 +1,6 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var bee;
-var upKey;
 var beeSize = 1;
 
 function preload() {
@@ -11,14 +10,12 @@ function preload() {
 function create() {
   bee = game.add.sprite(game.world.centerX, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
-
-  upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 }
 
 function update() {
-  if (upKey.isDown) {
+  if (game.input.mousePointer.isDown) {
     shrinkBee();
-  } else {
+  } else if (game.input.mousePointer.isUp) {
     expandBee();
   }
 }
