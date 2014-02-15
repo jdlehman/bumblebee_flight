@@ -17,9 +17,9 @@ var Bee = {
   MIN_SIZE: 0.2,
   GROWTH_STEP: 0.01,
   Velocity: {
-    UP: -250,
-    DOWN: 150,
-    RIGHT: 250
+    UP: -350,
+    DOWN: 250,
+    RIGHT: 350
   }
 
 };
@@ -60,9 +60,9 @@ function create() {
   passages = game.add.group();
 
   //generage barriers
-  for(var i = Win.WIDTH / 3; i < World.WIDTH; i+= BARRIER_FREQUENCY) {
-    passageHeight = Math.random() * 150 + 50;
-    passageY = Math.random() * (Win.HEIGHT - passageHeight - 200) + 100;
+  for(var i = Win.WIDTH / 2; i < World.WIDTH; i+= (BARRIER_FREQUENCY + generateVariance(BARRIER_FREQUENCY))) {
+    passageHeight = Math.random() * 100 + 80;
+    passageY = generateVariance(Win.HEIGHT - passageHeight - 200);
 
     createBarrier(i, passageY, passageHeight, true)
     createPassage(i, passageY, passageHeight);
@@ -89,6 +89,7 @@ function update() {
   }
 
   bee.body.velocity.x = Bee.Velocity.RIGHT;
+  bee.body.gravity.y = 100;
 
 }
 
@@ -139,10 +140,10 @@ function createBarrier(x, y, passageHeight, isBottom) {
 
 function createPassage(x, y, height) {
   var passage = game.add.sprite(0.5, 0.5, 'passage');
-  passage.x = x;
+  passage.x = x + BARRIER_WIDTH / 2;
   passage.y = y;
   passage.height = height;
-  passage.width = 60;
+  passage.width = 10;
   passage.body.immovable = true;
   passages.add(passage);
 }
