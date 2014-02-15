@@ -70,7 +70,7 @@ function create() {
 
   score = 0;
   var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-  scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);  
+  scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);
   scoreDisplay.fixedToCamera = true;
 }
 
@@ -146,5 +146,5 @@ function createPassage(x, y, height) {
   passage.height = height;
   passage.width = 60;
   passage.body.immovable = true;
-  passages.add(passage);    
+  passages.add(passage);
 }
