@@ -8,7 +8,7 @@ var World = {
   HEIGHT: Win.HEIGHT
 };
 
-var game = new Phaser.Game(Win.WIDTH, Win.HEIGHT, Phaser.AUTO, 'Bumblebee_Flight', { preload: preload, create: create, update: update, render: render});
+var game = new Phaser.Game(Win.WIDTH, Win.HEIGHT, Phaser.AUTO, 'Bumblebee_Flight', { preload: preload, create: create, update: update });
 
 var bee;
 var beeSize = 1;
@@ -47,6 +47,7 @@ function create() {
   bee = game.add.sprite(60, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
   bee.scale.setTo(0.5, 0.5);
+  bee.body.collideWorldBounds = true;
 
 
   game.camera.follow(bee);
@@ -89,9 +90,6 @@ function update() {
 
   bee.body.velocity.x = Bee.Velocity.RIGHT;
 
-}
-
-function render() {
 }
 
 function deathCollision(bee, barrier) {
