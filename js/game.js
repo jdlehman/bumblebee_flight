@@ -11,11 +11,15 @@ var barriers;
 function preload() {
   game.load.image('bee', 'assets/bumblebee.png');
   game.load.image('wall', 'assets/bumblebee_wall.png');
+  game.load.audio('song', 'assets/fobb.mp3');
 }
 
 function create() {
   bee = game.add.sprite(60, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
+
+  song = game.add.audio('song');
+  song.play();
 
   // barrier props
   var barrierConfig = {
