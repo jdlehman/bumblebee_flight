@@ -7,7 +7,6 @@ var game = new Phaser.Game(win.width, win.height, Phaser.AUTO, 'Bumblebee_Flight
 var bee;
 var beeSize = 1;
 var barriers;
-var cursors;
 
 function preload() {
   game.load.image('bee', 'assets/bumblebee.png');
@@ -22,7 +21,7 @@ function create() {
   var barrierConfig = {
     width: 80,
     height: 200,
-    variance: 80
+    variance: 70
   };
   // group to hold barriers
   barriers = game.add.group();
@@ -33,8 +32,6 @@ function create() {
     //create corresponding top barrier
     createBarrier(barrierConfig, i, false);
   }
-
-  cursors = game.input.keyboard.createCursorKeys();
 
 }
 
@@ -48,22 +45,7 @@ function update() {
     expandBee();
   }
 
-  bee.body.velocity.x = 0;
-  bee.body.velocity.y = 0;
-
-  if(cursors.left.isDown) {
-      bee.body.velocity.x = -200;
-  }
-  else if(cursors.right.isDown) {
-      bee.body.velocity.x = 200;
-  }
-
-  if(cursors.up.isDown) {
-      bee.body.velocity.y = -200;
-  }
-  else if(cursors.down.isDown) {
-      bee.body.velocity.y = 200;
-  }
+  bee.body.velocity.x = 170;
 
 }
 
