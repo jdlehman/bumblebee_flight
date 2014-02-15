@@ -6,41 +6,64 @@ var game = new Phaser.Game(win.width, win.height, Phaser.AUTO, 'Bumblebee_Flight
 
 var bee;
 var beeSize = 1;
+var barriers;
+var cursors;
 
 function preload() {
   game.load.image('bee', 'assets/bumblebee.png');
 }
 
 function create() {
-  bee = game.add.sprite(game.world.centerX, game.world.centerY, 'bee');
+  bee = game.add.sprite(60, game.world.centerY, 'bee');
   bee.anchor.setTo(0.5, 0.5);
 
   // barrier props
-  var barrier = {
+  var barrierConfig = {
     width: 80,
     height: 200,
-    heightVar: 80,
-    widthVar: 30
+    variance: 80
   };
   // group to hold barriers
-  var barriers = game.add.group();
+  barriers = game.add.group();
   //generage barriers
-  for(var i = 200; i < win.width - barrier.width; i+= (barrier.width * 1.5 + Math.random() * barrier.width)) {
-    var rand = Math.random();
+  for(var i = barrierConfig.width; i < win.width; i+= (barrierConfig.width * 1.5 + generateVariance(barrierConfig.width))) {
     //create bottom barrier
-    createBarrier(barriers, i, win.height, barrier.width, barrier.height, barrier.widthVar * rand, barrier.heightVar, true);
+    createBarrier(barrierConfig, i, true);
     //create corresponding top barrier
-    createBarrier(barriers, i, 0, barrier.width, barrier.height, barrier.widthVar * rand, barrier.heightVar, false);
+    createBarrier(barrierConfig, i, false);
   }
+
+  cursors = game.input.keyboard.createCursorKeys();
 
 }
 
 function update() {
-  if (game.input.mousePointer.isDown) {
+  game.physics.collide(bee, barriers);
+
+  if(game.input.mousePointer.isDown) {
     shrinkBee();
-  } else if (game.input.mousePointer.isUp) {
+  }
+  else if(game.input.mousePointer.isUp) {
     expandBee();
   }
+
+  bee.body.velocity.x = 0;
+  bee.body.velocity.y = 0;
+
+  if(cursors.left.isDown) {
+      bee.body.velocity.x = -200;
+  }
+  else if(cursors.right.isDown) {
+      bee.body.velocity.x = 200;
+  }
+
+  if(cursors.up.isDown) {
+      bee.body.velocity.y = -200;
+  }
+  else if(cursors.down.isDown) {
+      bee.body.velocity.y = 200;
+  }
+
 }
 
 function render() {
@@ -60,21 +83,27 @@ function expandBee() {
   }
 }
 
-function createBarrier(group, x, y, width, height, widthVariance, heightVariance, isBottom) {
-  var barrier = game.add.sprite(0, 0, null);
+function generateVariance(val) {
+  return val * Math.random();
+}
 
-  var newHeight = height + Math.random() * heightVariance;
+function createBarrier(barrierConfig, xCoord, isBottom) {
+
+  var randomHeight = barrierConfig.height + generateVariance(barrierConfig.variance);
+  var yCoord = 0;
   if(isBottom) {
-    y = y - newHeight;
+    yCoord = win.height - randomHeight;
   }
 
-  var wall = game.add.graphics(0, 0);
+  var wall = new Phaser.Graphics(game, 0,0);
   wall.beginFill(0xFFFFFF);
   wall.lineStyle(10, 0xFFFFFF, 1);
-  wall.drawRect(x, y, width + widthVariance, newHeight);
+  wall.drawRect(xCoord, yCoord, barrierConfig.width, randomHeight);
   wall.endFill();
 
+  var barrier = game.add.sprite(0, 0, null);
 
   barrier.addChild(wall);
-  group.add(barrier);
+  barrier.body.immovable = true;
+  barriers.add(barrier);
 }
