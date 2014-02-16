@@ -49,7 +49,7 @@ Game.Play.prototype = {
     passages = game.add.group();
 
     //generage barriers
-    for(var i = Win.WIDTH / 2; i < World.WIDTH; i+= (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
+    for(var i = Win.WIDTH * 0.8; i < World.WIDTH; i+= (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
       passageHeight = Math.random() * 100 + 80;
       passageY = this.generateVariance(Win.HEIGHT - passageHeight - 200);
 
