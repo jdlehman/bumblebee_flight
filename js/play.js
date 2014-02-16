@@ -27,13 +27,13 @@ var scoreDisplay;
 var song;
 
 
-Game.Play = function (game) {};
+Game.Play = function(game) {};
 
 Game.Play.prototype = {
 
-  create: function () {
+  create: function() {
     game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
-    game.stage.backgroundColor = "20DEFF";
+    //game.stage.backgroundColor = "20DEFF";
 
     bee = game.add.sprite(60, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
