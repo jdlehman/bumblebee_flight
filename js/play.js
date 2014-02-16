@@ -33,13 +33,11 @@ Game.Play.prototype = {
 
   create: function() {
     game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
-    //game.stage.backgroundColor = "20DEFF";
 
     bee = game.add.sprite(60, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
     bee.scale.setTo(0.5, 0.5);
     bee.body.collideWorldBounds = true;
-
 
     game.camera.follow(bee);
 
@@ -82,11 +80,6 @@ Game.Play.prototype = {
     bee.body.velocity.x = Bee.Velocity.RIGHT;
     bee.body.gravity.y = 100;
   },
-
-  //TODO: add restart, send back to play state
-  //restart: function() {
-  //  this.game.state.start('Play');
-  //},
 
   deathCollision: function(bee, barrier) {
     bee.kill();
@@ -135,7 +128,7 @@ Game.Play.prototype = {
     barriers.add(barrier);
   },
 
-  createPassage:function(x, y, height) {
+  createPassage: function(x, y, height) {
     var passage = game.add.sprite(0.5, 0.5, 'passage');
     passage.x = x + BARRIER_WIDTH / 2;
     passage.y = y;
