@@ -36,6 +36,7 @@ Game.Load.prototype = {
     //game.load.setPreloadSprite(preloading);
 
     game.load.image('startBtn', 'assets/graphics/start_button.png');
+    game.load.image('pauseBtn', 'assets/graphics/pause_button.png');
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.image('wall', 'assets/graphics/bumblebee_spider.png');
     game.load.image('passage', 'assets/graphics/bumblebee_passage.png');
@@ -44,6 +45,6 @@ Game.Load.prototype = {
 
   create: function() {
     game.state.states['Menu'].menuTxt = 'Click Start to Play';
-    game.state.start('Menu', 'some test');
+    game.state.start('Menu');
   }
 };
