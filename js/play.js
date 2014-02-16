@@ -91,6 +91,8 @@ Game.Play.prototype = {
   deathCollision: function(bee, barrier) {
     bee.kill();
     song.stop();
+    game.state.states['Menu'].menuTxt = 'You Died. Try Again?'
+    game.state.start('Menu');
   },
 
   increaseScore: function(bee, passage) {

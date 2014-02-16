@@ -43,6 +43,7 @@ Game.Load.prototype = {
   },
 
   create: function() {
-    game.state.start('Menu');
+    game.state.states['Menu'].menuTxt = 'Click Start to Play';
+    game.state.start('Menu', 'some test');
   }
 };
