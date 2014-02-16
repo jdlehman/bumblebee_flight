@@ -26,13 +26,14 @@ var score;
 var scoreDisplay;
 var song;
 
+
 Game.Play = function(game) {};
 
 Game.Play.prototype = {
 
   create: function() {
-    this.paused = false;
     game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
+    //game.stage.backgroundColor = "20DEFF";
 
     bee = game.add.sprite(60, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
@@ -63,32 +64,29 @@ Game.Play.prototype = {
     var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
     scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);
     scoreDisplay.fixedToCamera = true;
-
-    var pauseBtn = game.add.button(10, 10, 'pauseBtn', this.togglePause, this, 2, 1, 0);
-    pauseBtn.fixedToCamera = true;
-    var pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-    pauseKey.onDown.add(this.togglePause, this);
   },
 
   update: function() {
     game.physics.collide(bee, barriers, this.deathCollision);
     game.physics.overlap(bee, passages, this.increaseScore)
 
-    if(!this.paused) {
-      if(game.input.mousePointer.isDown) {
-        this.expandBee();
-        bee.body.velocity.y = Bee.Velocity.UP;
-      }
-      else if(game.input.mousePointer.isUp) {
-        this.shrinkBee();
-        bee.body.velocity.y = Bee.Velocity.DOWN;
-      }
-
-      bee.body.velocity.x = Bee.Velocity.RIGHT;
-      bee.body.gravity.y = 100;
+    if(game.input.mousePointer.isDown) {
+      this.expandBee();
+      bee.body.velocity.y = Bee.Velocity.UP;
+    }
+    else if(game.input.mousePointer.isUp) {
+      this.shrinkBee();
+      bee.body.velocity.y = Bee.Velocity.DOWN;
     }
 
+    bee.body.velocity.x = Bee.Velocity.RIGHT;
+    bee.body.gravity.y = 100;
   },
+
+  //TODO: add restart, send back to play state
+  //restart: function() {
+  //  this.game.state.start('Play');
+  //},
 
   deathCollision: function(bee, barrier) {
     bee.kill();
@@ -137,7 +135,7 @@ Game.Play.prototype = {
     barriers.add(barrier);
   },
 
-  createPassage: function(x, y, height) {
+  createPassage:function(x, y, height) {
     var passage = game.add.sprite(0.5, 0.5, 'passage');
     passage.x = x + BARRIER_WIDTH / 2;
     passage.y = y;
@@ -145,10 +143,6 @@ Game.Play.prototype = {
     passage.width = 10;
     passage.body.immovable = true;
     passages.add(passage);
-  },
-
-  togglePause: function() {
-    this.paused = !this.paused;
   }
 };
 
