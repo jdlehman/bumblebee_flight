@@ -9,7 +9,7 @@ Game.Boot = function(game) {};
 
 Game.Boot.prototype = {
   preload: function() {
-    game.load.image('loading', 'assets/graphics/loading.png');
+    game.load.image('loading', 'assets/graphics/loadbar.png');
   },
 
   create: function() {
@@ -30,10 +30,10 @@ Game.Load.prototype = {
     var textStyle = { font: "65px Arial", fill: "#ffffff", align: "center" };
     var loadingLabel = game.add.text(Win.WIDTH / 2, Win.HEIGHT / 2, 'Loading...', textStyle);
     loadingLabel.anchor.setTo(0.5, 0.5);
-    //TODO: add preload sprite
-    //var preloading = game.add.sprite(Win.WIDTH / 2, Win.HEIGHT / 2, 'loading');
-    //preloading.x -= preloading.width;
-    //game.load.setPreloadSprite(preloading);
+
+    var loadbar = game.add.sprite(Win.WIDTH / 2, Win.HEIGHT / 2 + 80, 'loading');
+    loadbar.anchor.setTo(0.5, 0.5);
+    game.load.setPreloadSprite(loadbar);
 
     game.load.image('startBtn', 'assets/graphics/start_button.png');
     game.load.image('bee', 'assets/graphics/bumblebee.png');
@@ -44,6 +44,6 @@ Game.Load.prototype = {
 
   create: function() {
     game.state.states['Menu'].menuTxt = 'Click Start to Play';
-    game.state.start('Menu', 'some test');
+    game.state.start('Menu');
   }
 };
