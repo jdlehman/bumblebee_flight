@@ -39,7 +39,7 @@ Game.Load.prototype = {
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.image('wall', 'assets/graphics/bumblebee_spider.png');
     game.load.image('passage', 'assets/graphics/bumblebee_passage.png');
-    game.load.audio('song', 'assets/sounds/fobb.mp3');
+    game.load.audio('song', 'assets/sounds/fotb-grand-piano.mp3');
   },
 
   create: function() {
