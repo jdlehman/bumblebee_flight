@@ -17,7 +17,7 @@ var Bee = {
 };
 
 var BARRIER_WIDTH = 60;
-var BARRIER_FREQUENCY = 180;
+var BARRIER_FREQUENCY = 140;
 
 var bee;
 var barriers;
@@ -62,7 +62,7 @@ Game.Play.prototype = {
       lastMidpoint = passageMidpoint;
 
       this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
-      this.createPassage2(xCoord, passageMidpoint, passageHeight);
+      this.createPassage(xCoord, passageMidpoint, passageHeight);
       this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
     }
 
@@ -140,39 +140,12 @@ Game.Play.prototype = {
     barriers.add(barrier);
   },
 
-  createPassage2: function(x, passageMid, passageHeight) {
+  createPassage: function(x, passageMid, passageHeight) {
     var passage = game.add.sprite(0.5, 0.5, 'passage');
     passage.x = x + BARRIER_WIDTH / 2;
     passage.y = passageMid - passageHeight / 2.0;
     passage.width = 10;
     passage.height = passageHeight;
-    passage.body.immovable = true;
-    passages.add(passage);
-  },
-
-  createBarrier: function(x, barrierHeight, passageHeight, isBottom) {
-
-    var barrier = game.add.sprite(0, 0, 'wall');
-    if (isBottom) {
-      barrier.y = barrierHeight + passageHeight;
-      barrier.height = Win.HEIGHT - (passageHeight + y);
-    }
-    else {// top barrier
-      barrier.y = 0;
-      barrier.height = barrierHeight;
-    }
-    barrier.x = x;
-    barrier.width = BARRIER_WIDTH;
-    barrier.body.immovable = true;
-    barriers.add(barrier);
-  },
-
-  createPassage: function(x, y, height) {
-    var passage = game.add.sprite(0.5, 0.5, 'passage');
-    passage.x = x + BARRIER_WIDTH / 2;
-    passage.y = y;
-    passage.height = height;
-    passage.width = 10;
     passage.body.immovable = true;
     passages.add(passage);
   }
