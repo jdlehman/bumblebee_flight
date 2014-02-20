@@ -17,7 +17,7 @@ var Bee = {
 };
 
 var BARRIER_WIDTH = 60;
-var BARRIER_FREQUENCY = 200;
+var BARRIER_FREQUENCY = 180;
 
 var bee;
 var barriers;
@@ -48,14 +48,22 @@ Game.Play.prototype = {
     barriers = game.add.group();
     passages = game.add.group();
 
-    //generage barriers
-    for(var i = Win.WIDTH * 0.8; i < World.WIDTH; i+= (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
-      passageHeight = Math.random() * 100 + 80;
-      passageY = this.generateVariance(Win.HEIGHT - passageHeight - 200);
+    var lastMidpoint = this.generateVariance(Win.HEIGHT);
 
-      this.createBarrier(i, passageY, passageHeight, true)
-      this.createPassage(i, passageY, passageHeight);
-      this.createBarrier(i, passageY, passageHeight, false)
+    //generage barriers
+    for(var xCoord = Win.WIDTH * 0.8; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
+      var passageHeight = this.generateVariance(150) + 80;
+      var sign = Math.round(Math.random(1)) ? -1 : 1;
+      var passageMidpoint = passageMidpoint = this.generateVariance(180) * sign + lastMidpoint;
+      // if point is imposible, vary in opposite direction
+      if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
+        passageMidpoint = passageMidpoint = this.generateVariance(180) * sign * -1 + lastMidpoint;
+      }
+      lastMidpoint = passageMidpoint;
+
+      this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
+      this.createPassage2(xCoord, passageMidpoint, passageHeight);
+      this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
     }
 
     score = 0;
@@ -112,17 +120,48 @@ Game.Play.prototype = {
     return val * Math.random();
   },
 
-  createBarrier: function(x, y, passageHeight, isBottom) {
-
+  createTopBarrier: function(x, passageMid, passageHeight) {
     var barrier = game.add.sprite(0, 0, 'wall');
     barrier.x = x;
+    barrier.y = 0;
+    barrier.width = BARRIER_WIDTH;
+    barrier.height = passageMid - passageHeight / 2.0;
+    barrier.body.immovable = true;
+    barriers.add(barrier);
+  },
+
+  createBottomBarrier: function(x, passageMid, passageHeight) {
+    var barrier = game.add.sprite(0, 0, 'wall');
+    barrier.x = x;
+    barrier.y = passageMid + passageHeight / 2.0;
+    barrier.width = BARRIER_WIDTH;
+    barrier.height = Win.HEIGHT - barrier.y;
+    barrier.body.immovable = true;
+    barriers.add(barrier);
+  },
+
+  createPassage2: function(x, passageMid, passageHeight) {
+    var passage = game.add.sprite(0.5, 0.5, 'passage');
+    passage.x = x + BARRIER_WIDTH / 2;
+    passage.y = passageMid - passageHeight / 2.0;
+    passage.width = 10;
+    passage.height = passageHeight;
+    passage.body.immovable = true;
+    passages.add(passage);
+  },
+
+  createBarrier: function(x, barrierHeight, passageHeight, isBottom) {
+
+    var barrier = game.add.sprite(0, 0, 'wall');
     if (isBottom) {
-      barrier.y = y + passageHeight;
+      barrier.y = barrierHeight + passageHeight;
       barrier.height = Win.HEIGHT - (passageHeight + y);
-    } else {
-      barrier.y = 0;
-      barrier.height = y;
     }
+    else {// top barrier
+      barrier.y = 0;
+      barrier.height = barrierHeight;
+    }
+    barrier.x = x;
     barrier.width = BARRIER_WIDTH;
     barrier.body.immovable = true;
     barriers.add(barrier);
