@@ -26,7 +26,7 @@ Game.Load = function(game) {};
 
 Game.Load.prototype = {
   preload: function() {
-    game.stage.backgroundColor = "#2D9BFF";
+    game.stage.backgroundColor = "#8199dc";
 
     var textStyle = { font: "65px Griffy", fill: "#ffffff", align: "center" };
     var loadingLabel = game.add.text(Win.WIDTH / 2, Win.HEIGHT / 2, 'Loading...', textStyle);
@@ -37,9 +37,9 @@ Game.Load.prototype = {
     game.load.setPreloadSprite(loadbar);
 
     game.load.image('splash', 'assets/graphics/bumblebee_splash_gold.png');
-    game.load.image('grass', 'assets/graphics/bumblebee_black_bg.png');
+    game.load.image('grass', 'assets/graphics/bumblebee_grass.png');
     game.load.image('hills', 'assets/graphics/bumblebee_green_bg.png');
-    game.load.image('plants', 'assets/graphics/bumblebee_purple_bg.png');
+    game.load.image('plants', 'assets/graphics/bumblebee_hearts.png');
     game.load.image('startBtn', 'assets/graphics/start_button.png');
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.image('wall', 'assets/graphics/bumblebee_spider.png');

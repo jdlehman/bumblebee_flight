@@ -39,7 +39,6 @@ Game.Play.prototype = {
 
     background = game.add.tileSprite(0, 0, 1024, 1024, 'hills');
     background2 = game.add.tileSprite(0, 0, 1024, 1024, 'plants');
-    background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
  
     bee = game.add.sprite(Win.WIDTH / 2, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
@@ -72,6 +71,8 @@ Game.Play.prototype = {
       this.createPassage(xCoord, passageMidpoint, passageHeight);
       this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
     }
+
+    background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
 
     score = 0;
     var style = { font: "40px Griffy", fill: "#ffffff", align: "center" };
