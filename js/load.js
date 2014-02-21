@@ -26,7 +26,7 @@ Game.Load = function(game) {};
 
 Game.Load.prototype = {
   preload: function() {
-    game.stage.backgroundColor = "#8199dc";
+    game.stage.backgroundColor = "#000000";
 
     var textStyle = { font: "65px Griffy", fill: "#ffffff", align: "center" };
     var loadingLabel = game.add.text(Win.WIDTH / 2, Win.HEIGHT / 2, 'Loading...', textStyle);

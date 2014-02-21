@@ -39,7 +39,7 @@ Game.Play.prototype = {
 
     background = game.add.tileSprite(0, 0, 1024, 1024, 'hills');
     background2 = game.add.tileSprite(0, 0, 1024, 1024, 'plants');
- 
+
     bee = game.add.sprite(Win.WIDTH / 2, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
     bee.scale.setTo(0.5, 0.5);
@@ -67,7 +67,7 @@ Game.Play.prototype = {
       if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
         passageMidpoint = lastMidpoint - delta;
       }
-      
+
       lastMidpoint = passageMidpoint;
 
       this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
@@ -149,8 +149,6 @@ Game.Play.prototype = {
     barrier.anchor.setTo(0,1);
     barrier.x = x;
     barrier.y = passageMid - passageHeight / 2.0;
-    // barrier.width = BARRIER_WIDTH;
-    // barrier.height = passageMid - passageHeight / 2.0;
     barrier.body.immovable = true;
     barriers.add(barrier);
   },
@@ -159,14 +157,12 @@ Game.Play.prototype = {
     var barrier = game.add.sprite(0, 0, 'spiderBottom');
     barrier.x = x;
     barrier.y = passageMid + passageHeight / 2.0;
-    // barrier.width = BARRIER_WIDTH;
-    // barrier.height = Win.HEIGHT - barrier.y;
     barrier.body.immovable = true;
     barriers.add(barrier);
   },
 
   createPassage: function(x, passageMid, passageHeight) {
-    var passage = game.add.sprite(0.5, 0.5, 'passage');
+    var passage = game.add.sprite(0.5, 0.5);
     passage.x = x + BARRIER_WIDTH / 2;
     passage.y = passageMid - passageHeight / 2.0;
     passage.width = 10;
