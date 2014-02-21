@@ -103,6 +103,8 @@ Game.Play.prototype = {
   },
 
   deathCollision: function(bee, barrier, ctx) {
+    bee.x = 0;
+    bee.y = 0;
     bee.kill();
     song.stop();
     game.state.states['Menu'].menuTxt = score.toString() + ' webs avoided!';
