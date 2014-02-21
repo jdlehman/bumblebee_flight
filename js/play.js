@@ -58,7 +58,7 @@ Game.Play.prototype = {
     var lastMidpoint = this.generateVariance(Win.HEIGHT);
 
     //generage barriers
-    for(var xCoord = Win.WIDTH * 0.8; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
+    for(var xCoord = Win.WIDTH * 1.5; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
       var passageHeight = this.generateVariance(150) + 80;
       var sign = Math.round(Math.random(1)) ? -1 : 1;
       var passageMidpoint = passageMidpoint = this.generateVariance(180) * sign + lastMidpoint;
@@ -74,7 +74,7 @@ Game.Play.prototype = {
     }
 
     score = 0;
-    var style = { font: "65px Griffy", fill: "#ffffff", align: "center" };
+    var style = { font: "40px Griffy", fill: "#ffffff", align: "center" };
     scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);
     scoreDisplay.fixedToCamera = true;
   },

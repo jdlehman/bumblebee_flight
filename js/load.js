@@ -1,6 +1,6 @@
 var Win = {
-  WIDTH: 800,
-  HEIGHT: 600
+  WIDTH: 480,
+  HEIGHT: 720
 };
 
 Game = {};
@@ -36,6 +36,7 @@ Game.Load.prototype = {
     loadbar.anchor.setTo(0.5, 0.5);
     game.load.setPreloadSprite(loadbar);
 
+    game.load.image('splash', 'assets/graphics/bumblebee_splash_gold.png');
     game.load.image('grass', 'assets/graphics/bumblebee_black_bg.png');
     game.load.image('hills', 'assets/graphics/bumblebee_green_bg.png');
     game.load.image('plants', 'assets/graphics/bumblebee_purple_bg.png');
