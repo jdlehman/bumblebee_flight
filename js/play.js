@@ -106,6 +106,9 @@ Game.Play.prototype = {
     bee.kill();
     song.stop();
     game.state.states['Menu'].menuTxt = score.toString() + ' webs avoided!';
+    if(score > game.state.states['Play'].highScore) {
+      game.state.states['Play'].highScore = score;
+    }
     game.state.start('Menu');
   },
 

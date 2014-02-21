@@ -16,6 +16,7 @@ Game.Boot.prototype = {
     game.stage.scale.minWidth = Win.WIDTH;
     game.stage.scale.minHeight = Win.HEIGHT;
     game.stage.scale.setSize();
+    game.state.states['Play'].highScore = 0;
 
     game.state.start('Load');
   }
