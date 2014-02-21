@@ -17,7 +17,7 @@ var Bee = {
 };
 
 var BARRIER_WIDTH = 60;
-var BARRIER_FREQUENCY = 140;
+var BARRIER_FREQUENCY = 180;
 
 var bee;
 var barriers;
@@ -54,17 +54,20 @@ Game.Play.prototype = {
     barriers = game.add.group();
     passages = game.add.group();
 
-    var lastMidpoint = this.generateVariance(Win.HEIGHT);
+    var lastMidpoint = Win.HEIGHT / 2;
 
-    //generage barriers
+    // generate barriers
     for(var xCoord = Win.WIDTH * 1.5; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
       var passageHeight = this.generateVariance(150) + 80;
       var sign = Math.round(Math.random(1)) ? -1 : 1;
-      var passageMidpoint = passageMidpoint = this.generateVariance(180) * sign + lastMidpoint;
+      var delta = sign * this.generateVariance(180);
+      var passageMidpoint = lastMidpoint + delta;
+
       // if point is imposible, vary in opposite direction
       if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
-        passageMidpoint = passageMidpoint = this.generateVariance(180) * sign * -1 + lastMidpoint;
+        passageMidpoint = lastMidpoint - delta;
       }
+      
       lastMidpoint = passageMidpoint;
 
       this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
@@ -72,8 +75,10 @@ Game.Play.prototype = {
       this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
     }
 
+    // Place ground background in front of barriers
     background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
 
+    // Score instantiated last, to place it on top of all other layers
     score = 0;
     var style = { font: "40px Griffy", fill: "#ffffff", align: "center" };
     scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);
