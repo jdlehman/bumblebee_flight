@@ -26,6 +26,9 @@ var score;
 var scoreDisplay;
 var song;
 
+var background;
+var background2;
+var background3;
 
 Game.Play = function(game) {};
 
@@ -34,7 +37,11 @@ Game.Play.prototype = {
   create: function() {
     game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
 
-    bee = game.add.sprite(60, game.world.centerY, 'bee');
+    background = game.add.tileSprite(0, 0, 1024, 1024, 'hills');
+    background2 = game.add.tileSprite(0, 0, 1024, 1024, 'plants');
+    background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
+ 
+    bee = game.add.sprite(Win.WIDTH / 2, game.world.centerY, 'bee');
     bee.anchor.setTo(0.5, 0.5);
     bee.scale.setTo(0.5, 0.5);
     bee.body.collideWorldBounds = true;
@@ -67,7 +74,7 @@ Game.Play.prototype = {
     }
 
     score = 0;
-    var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+    var style = { font: "65px Griffy", fill: "#ffffff", align: "center" };
     scoreDisplay = game.add.text(Win.WIDTH / 2, 0, score.toString(), style);
     scoreDisplay.fixedToCamera = true;
   },
@@ -85,14 +92,20 @@ Game.Play.prototype = {
       bee.body.velocity.y = Bee.Velocity.DOWN;
     }
 
+    background.x = bee.x - Win.WIDTH / 2;
+    background.tilePosition.x =  -bee.x*.025 % 1024;
+    background2.x = bee.x - Win.WIDTH / 2;
+    background2.tilePosition.x = -bee.x*.5 % 1024;
+    background3.x = bee.x - Win.WIDTH / 2;
+    background3.tilePosition.x = -bee.x % 1024;
     bee.body.velocity.x = Bee.Velocity.RIGHT;
     bee.body.gravity.y = 100;
   },
 
-  deathCollision: function(bee, barrier) {
+  deathCollision: function(bee, barrier, ctx) {
     bee.kill();
     song.stop();
-    game.state.states['Menu'].menuTxt = 'You Died. Try Again?'
+    game.state.states['Menu'].menuTxt = score.toString() + ' webs avoided!';
     game.state.start('Menu');
   },
 
