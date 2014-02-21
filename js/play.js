@@ -16,8 +16,8 @@ var Bee = {
 
 };
 
-var BARRIER_WIDTH = 60;
-var BARRIER_FREQUENCY = 180;
+var BARRIER_WIDTH = 80;
+var BARRIER_FREQUENCY = 200;
 
 var bee;
 var barriers;
@@ -58,7 +58,7 @@ Game.Play.prototype = {
 
     // generate barriers
     for(var xCoord = Win.WIDTH * 1.5; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
-      var passageHeight = this.generateVariance(150) + 80;
+      var passageHeight = this.generateVariance(150) + 100;
       var sign = Math.round(Math.random(1)) ? -1 : 1;
       var delta = sign * this.generateVariance(180);
       var passageMidpoint = lastMidpoint + delta;
@@ -145,21 +145,22 @@ Game.Play.prototype = {
   },
 
   createTopBarrier: function(x, passageMid, passageHeight) {
-    var barrier = game.add.sprite(0, 0, 'wall');
+    var barrier = game.add.sprite(0, 0, 'spiderTop');
+    barrier.anchor.setTo(0,1);
     barrier.x = x;
-    barrier.y = 0;
-    barrier.width = BARRIER_WIDTH;
-    barrier.height = passageMid - passageHeight / 2.0;
+    barrier.y = passageMid - passageHeight / 2.0;
+    // barrier.width = BARRIER_WIDTH;
+    // barrier.height = passageMid - passageHeight / 2.0;
     barrier.body.immovable = true;
     barriers.add(barrier);
   },
 
   createBottomBarrier: function(x, passageMid, passageHeight) {
-    var barrier = game.add.sprite(0, 0, 'wall');
+    var barrier = game.add.sprite(0, 0, 'spiderBottom');
     barrier.x = x;
     barrier.y = passageMid + passageHeight / 2.0;
-    barrier.width = BARRIER_WIDTH;
-    barrier.height = Win.HEIGHT - barrier.y;
+    // barrier.width = BARRIER_WIDTH;
+    // barrier.height = Win.HEIGHT - barrier.y;
     barrier.body.immovable = true;
     barriers.add(barrier);
   },
