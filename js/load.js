@@ -44,7 +44,6 @@ Game.Load.prototype = {
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.image('spiderTop', 'assets/graphics/bumblebee_spider_upside_down.png');
     game.load.image('spiderBottom', 'assets/graphics/bumblebee_spider.png');
-    game.load.image('passage', 'assets/graphics/bumblebee_passage.png');
     game.load.audio('song', 'assets/sounds/fotb-grand-piano.mp3');
   },
 
