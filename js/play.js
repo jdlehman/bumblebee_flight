@@ -37,7 +37,7 @@ Game.Play.prototype = {
     game.camera.follow(this.bee);
 
     this.song = game.add.audio('song');
-    this.song.play();
+    this.song.play('', 0, 1, true);
 
     // group to hold barriers
     this.barriers = game.add.group();
