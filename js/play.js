@@ -1,8 +1,3 @@
-var World = {
-  WIDTH: 25000,
-  HEIGHT: Win.HEIGHT
-};
-
 var beeSize = 1;
 var Bee = {
   MAX_SIZE: 0.5,
@@ -10,31 +5,32 @@ var Bee = {
   GROWTH_STEP: 0.01,
   Velocity: {
     UP: -350,
-    DOWN: 250,
-    RIGHT: 350
+    DOWN: 250
   }
 
 };
 
 var BARRIER_WIDTH = 80;
 var BARRIER_FREQUENCY = 180;
+var GAME_SPEED = -350;
 
 Game.Play = function(game) {};
 
 Game.Play.prototype = {
 
   create: function() {
-    game.world.setBounds(0, 0, World.WIDTH, World.HEIGHT);
+    game.world.setBounds(0, 0, Win.WIDTH, Win.HEIGHT);
+    // invisible sprite to mark the background tile locations (emulates world movement)
+    this.pace_sprite = game.add.sprite(Win.WIDTH / 3, game.world.centerY, null);
+    this.pace_sprite.body.velocity.x = -GAME_SPEED;
 
     this.background = game.add.tileSprite(0, 0, 1024, 1024, 'hills');
     this.background2 = game.add.tileSprite(0, 0, 1024, 1024, 'plants');
 
-    this.bee = game.add.sprite(Win.WIDTH / 2, game.world.centerY, 'bee');
+    this.bee = game.add.sprite(Win.WIDTH / 3, game.world.centerY, 'bee');
     this.bee.anchor.setTo(0.5, 0.5);
     this.bee.scale.setTo(Bee.MIN_SIZE, Bee.MIN_SIZE);
     this.bee.body.collideWorldBounds = true;
-
-    game.camera.follow(this.bee);
 
     this.song = game.add.audio('song');
     this.song.play('', 0, 1, true);
@@ -46,7 +42,7 @@ Game.Play.prototype = {
     var lastMidpoint = Win.HEIGHT / 2;
 
     // generate barriers
-    for(var xCoord = Win.WIDTH * 1.5; xCoord < World.WIDTH; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
+    for(var xCoord = Win.WIDTH * 1.5; xCoord < 25000; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
       var passageHeight = this.generateVariance(150) + 100;
       var sign = Math.round(Math.random(1)) ? -1 : 1;
       var delta = sign * this.generateVariance(180);
@@ -66,12 +62,15 @@ Game.Play.prototype = {
 
     // Place ground background in front of barriers
     this.background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
+    // set background initial points
+    this.background.x = this.bee.x - Win.WIDTH / 3;
+    this.background2.x = this.bee.x - Win.WIDTH / 3;
+    this.background3.x = this.bee.x - Win.WIDTH / 3;
 
     // Score instantiated last, to place it on top of all other layers
     this.score = 0;
     var style = { font: "40px Griffy", fill: "#ffffff", align: "center" };
     this.scoreDisplay = game.add.text(Win.WIDTH / 2, 0, this.score.toString(), style);
-    this.scoreDisplay.fixedToCamera = true;
   },
 
   update: function() {
@@ -88,15 +87,11 @@ Game.Play.prototype = {
     }
 
     // background movement
-    this.background.x = this.bee.x - Win.WIDTH / 2;
-    this.background.tilePosition.x =  -this.bee.x*.025 % 1024;
-    this.background2.x = this.bee.x - Win.WIDTH / 2;
-    this.background2.tilePosition.x = -this.bee.x*.5 % 1024;
-    this.background3.x = this.bee.x - Win.WIDTH / 2;
-    this.background3.tilePosition.x = -this.bee.x % 1024;
+    this.background.tilePosition.x =  -this.pace_sprite.x * .025 % 1024;
+    this.background2.tilePosition.x = -this.pace_sprite.x * .5 % 1024;
+    this.background3.tilePosition.x = -this.pace_sprite % 1024;
 
     // bee movement
-    this.bee.body.velocity.x = Bee.Velocity.RIGHT;
     this.bee.body.gravity.y = 500;
   },
 
@@ -142,6 +137,7 @@ Game.Play.prototype = {
     barrier.x = x;
     barrier.y = passageMid - passageHeight / 2.0;
     barrier.body.immovable = true;
+    barrier.body.velocity.x = GAME_SPEED;
     this.barriers.add(barrier);
   },
 
@@ -150,6 +146,7 @@ Game.Play.prototype = {
     barrier.x = x;
     barrier.y = passageMid + passageHeight / 2.0;
     barrier.body.immovable = true;
+    barrier.body.velocity.x = GAME_SPEED;
     this.barriers.add(barrier);
   },
 
@@ -160,6 +157,7 @@ Game.Play.prototype = {
     passage.width = 10;
     passage.height = passageHeight;
     passage.body.immovable = true;
+    passage.body.velocity.x = GAME_SPEED;
     this.passages.add(passage);
   }
 };
