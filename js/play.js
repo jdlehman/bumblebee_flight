@@ -11,7 +11,7 @@ var Bee = {
 };
 
 var BARRIER_WIDTH = 80;
-var BARRIER_FREQUENCY = 180;
+var BARRIER_FREQUENCY = 100;
 var GAME_SPEED = -350;
 
 Game.Play = function(game) {};
@@ -21,8 +21,8 @@ Game.Play.prototype = {
   create: function() {
     game.world.setBounds(0, 0, Win.WIDTH, Win.HEIGHT);
     // invisible sprite to mark the background tile locations (emulates world movement)
-    this.pace_sprite = game.add.sprite(Win.WIDTH / 3, game.world.centerY, null);
-    this.pace_sprite.body.velocity.x = -GAME_SPEED;
+    this.paceSprite = game.add.sprite(Win.WIDTH / 3, game.world.centerY, null);
+    this.paceSprite.body.velocity.x = -GAME_SPEED;
 
     this.background = game.add.tileSprite(0, 0, 1024, 1024, 'hills');
     this.background2 = game.add.tileSprite(0, 0, 1024, 1024, 'plants');
@@ -39,26 +39,13 @@ Game.Play.prototype = {
     this.barriers = game.add.group();
     this.passages = game.add.group();
 
-    var lastMidpoint = Win.HEIGHT / 2;
+    this.lastMidpoint = Win.HEIGHT / 2; // sets first location of passage midpoint
+    this.barrierLoc = Win.WIDTH * 1.1; // sets first location of barrier
 
     // generate barriers
-    for(var xCoord = Win.WIDTH * 1.5; xCoord < 25000; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
-      var passageHeight = this.generateVariance(150) + 100;
-      var sign = Math.round(Math.random(1)) ? -1 : 1;
-      var delta = sign * this.generateVariance(180);
-      var passageMidpoint = lastMidpoint + delta;
-
-      // if point is imposible, vary in opposite direction
-      if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
-        passageMidpoint = lastMidpoint - delta;
-      }
-
-      lastMidpoint = passageMidpoint;
-
-      this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
-      this.createPassage(xCoord, passageMidpoint, passageHeight);
-      this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
-    }
+    //for(var xCoord = Win.WIDTH * 1.5; xCoord < 25000; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
+    //  this.generateFullBarrier(xCoord);
+    //}
 
     // Place ground background in front of barriers
     this.background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
@@ -87,12 +74,18 @@ Game.Play.prototype = {
     }
 
     // background movement
-    this.background.tilePosition.x =  -this.pace_sprite.x * .025 % 1024;
-    this.background2.tilePosition.x = -this.pace_sprite.x * .5 % 1024;
-    this.background3.tilePosition.x = -this.pace_sprite % 1024;
+    this.background.tilePosition.x =  -this.paceSprite.x * .025 % 1024;
+    this.background2.tilePosition.x = -this.paceSprite.x * .5 % 1024;
+    this.background3.tilePosition.x = -this.paceSprite % 1024;
 
     // bee movement
     this.bee.body.gravity.y = 500;
+
+    // barrier generation
+    if(this.paceSprite.x >= this.barrierLoc) {
+      this.barrierLoc += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY * .8));
+      this.generateFullBarrier(this.barrierLoc);
+    };
   },
 
   deathCollision: function(bee, barrier, ctx) {
@@ -129,6 +122,24 @@ Game.Play.prototype = {
 
   generateVariance: function(val) {
     return val * Math.random();
+  },
+
+  generateFullBarrier: function(xCoord) {
+    var passageHeight = this.generateVariance(150) + 100;
+    var sign = Math.round(Math.random(1)) ? -1 : 1;
+    var delta = sign * this.generateVariance(180);
+    var passageMidpoint = this.lastMidpoint + delta;
+
+    // if point is imposible, vary in opposite direction
+    if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
+      passageMidpoint = this.lastMidpoint - delta;
+    }
+
+    this.lastMidpoint = passageMidpoint;
+
+    this.createTopBarrier(xCoord, passageMidpoint, passageHeight);
+    this.createPassage(xCoord, passageMidpoint, passageHeight);
+    this.createBottomBarrier(xCoord, passageMidpoint, passageHeight);
   },
 
   createTopBarrier: function(x, passageMid, passageHeight) {
