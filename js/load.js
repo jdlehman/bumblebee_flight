@@ -42,7 +42,7 @@ Game.Load.prototype = {
     game.load.image('plants', 'assets/graphics/bumblebee_hearts.png');
     game.load.image('startBtn', 'assets/graphics/bumblebee_beehive.png');
     game.load.image('bee', 'assets/graphics/bumblebee.png');
-    game.load.image('barrierTop', 'assets/graphics/bumblebee_spider_new.png');
+    game.load.spritesheet('spider', 'assets/graphics/bumblebee_spider_new_sheet.png',60,600,5);
     game.load.image('barrierBottom', 'assets/graphics/bumblebee_flytrap.png');
     game.load.audio('song', 'assets/sounds/fotb-grand-piano.mp3');
   },

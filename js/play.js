@@ -143,7 +143,9 @@ Game.Play.prototype = {
   },
 
   createTopBarrier: function(x, passageMid, passageHeight) {
-    var barrier = game.add.sprite(0, 0, 'barrierTop');
+    var barrier = game.add.sprite(0, 0, 'spider');
+    barrier.animations.add('look');
+    barrier.animations.play('look', 2, true);
     barrier.anchor.setTo(0,1);
     barrier.x = x;
     barrier.y = passageMid - passageHeight / 2.0;
