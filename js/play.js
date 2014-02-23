@@ -143,7 +143,7 @@ Game.Play.prototype = {
   },
 
   createTopBarrier: function(x, passageMid, passageHeight) {
-    var barrier = game.add.sprite(0, 0, 'spiderTop');
+    var barrier = game.add.sprite(0, 0, 'barrierTop');
     barrier.anchor.setTo(0,1);
     barrier.x = x;
     barrier.y = passageMid - passageHeight / 2.0;
@@ -153,7 +153,7 @@ Game.Play.prototype = {
   },
 
   createBottomBarrier: function(x, passageMid, passageHeight) {
-    var barrier = game.add.sprite(0, 0, 'spiderBottom');
+    var barrier = game.add.sprite(0, 0, 'barrierBottom');
     barrier.x = x;
     barrier.y = passageMid + passageHeight / 2.0;
     barrier.body.immovable = true;
