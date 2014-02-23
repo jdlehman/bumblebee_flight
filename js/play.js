@@ -76,7 +76,7 @@ Game.Play.prototype = {
     // background movement
     this.background.tilePosition.x =  -this.paceSprite.x * .025 % 1024;
     this.background2.tilePosition.x = -this.paceSprite.x * .5 % 1024;
-    this.background3.tilePosition.x = -this.paceSprite % 1024;
+    this.background3.tilePosition.x = -this.paceSprite.x % 1024;
 
     // bee movement
     this.bee.body.gravity.y = 500;
