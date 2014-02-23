@@ -49,6 +49,7 @@ Game.Play.prototype = {
 
     // Place ground background in front of barriers
     this.background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
+
     // set background initial points
     this.background.x = this.bee.x - Win.WIDTH / 3;
     this.background2.x = this.bee.x - Win.WIDTH / 3;
@@ -63,6 +64,10 @@ Game.Play.prototype = {
   update: function() {
     game.physics.collide(this.bee, this.barriers, this.deathCollision, null, this);
     game.physics.overlap(this.bee, this.passages, this.increaseScore, null, this)
+
+    if(this.bee.y > Win.HEIGHT - 30) {
+      this.deathCollision.call(this);
+    }
 
     if(game.input.mousePointer.isDown) {
       this.expandBee();
@@ -89,9 +94,9 @@ Game.Play.prototype = {
   },
 
   deathCollision: function(bee, barrier, ctx) {
-    bee.x = 0;
-    bee.y = 0;
-    bee.destroy();
+    this.bee.x = 0;
+    this.bee.y = 0;
+    this.bee.destroy();
     this.song.stop();
     game.state.states['Menu'].menuTxt = this.score.toString() + ' spiders avoided!';
     if(this.score > game.state.states['Play'].highScore) {
