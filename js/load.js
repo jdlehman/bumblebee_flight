@@ -40,7 +40,7 @@ Game.Load.prototype = {
     game.load.image('grass', 'assets/graphics/bumblebee_grass.png');
     game.load.image('hills', 'assets/graphics/bumblebee_green_bg.png');
     game.load.image('plants', 'assets/graphics/bumblebee_hearts.png');
-    game.load.image('startBtn', 'assets/graphics/start_button.png');
+    game.load.image('startBtn', 'assets/graphics/bumblebee_beehive.png');
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.image('spiderTop', 'assets/graphics/bumblebee_spider_upside_down.png');
     game.load.image('spiderBottom', 'assets/graphics/bumblebee_spider.png');
@@ -48,7 +48,7 @@ Game.Load.prototype = {
   },
 
   create: function() {
-    game.state.states['Menu'].menuTxt = 'Click Start to Play';
+    game.state.states['Menu'].menuTxt = 'Avoid the spiders!';
     game.state.start('Menu');
   }
 };

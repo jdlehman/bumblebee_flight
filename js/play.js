@@ -93,7 +93,7 @@ Game.Play.prototype = {
     bee.y = 0;
     bee.destroy();
     this.song.stop();
-    game.state.states['Menu'].menuTxt = this.score.toString() + ' webs avoided!';
+    game.state.states['Menu'].menuTxt = this.score.toString() + ' spiders avoided!';
     if(this.score > game.state.states['Play'].highScore) {
       game.state.states['Play'].highScore = this.score;
     }
