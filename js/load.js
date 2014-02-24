@@ -44,7 +44,7 @@ Game.Load.prototype = {
     game.load.image('bee', 'assets/graphics/bumblebee.png');
     game.load.spritesheet('spider', 'assets/graphics/bumblebee_spider_new_sheet.png',60,600,5);
     game.load.image('barrierBottom', 'assets/graphics/bumblebee_flytrap.png');
-    game.load.audio('song', 'assets/sounds/fotb-grand-2.mp3');
+    game.load.audio('song', 'assets/sounds/fotbb.mp3');
   },
 
   create: function() {
