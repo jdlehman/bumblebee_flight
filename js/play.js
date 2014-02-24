@@ -39,13 +39,9 @@ Game.Play.prototype = {
     this.barriers = game.add.group();
     this.passages = game.add.group();
 
+    // barrier generation setup
     this.lastMidpoint = Win.HEIGHT / 2; // sets first location of passage midpoint
     this.barrierLoc = Win.WIDTH * 1.1; // sets first location of barrier
-
-    // generate barriers
-    //for(var xCoord = Win.WIDTH * 1.5; xCoord < 25000; xCoord += (BARRIER_FREQUENCY + this.generateVariance(BARRIER_FREQUENCY))) {
-    //  this.generateFullBarrier(xCoord);
-    //}
 
     // Place ground background in front of barriers
     this.background3 = game.add.tileSprite(0, 0, 1024, 1024, 'grass');
@@ -69,11 +65,11 @@ Game.Play.prototype = {
       this.deathCollision.call(this);
     }
 
-    if(game.input.mousePointer.isDown) {
+    if(game.input.mousePointer.isDown || game.input.pointer1.isDown) {
       this.expandBee();
       this.bee.body.velocity.y = Bee.Velocity.UP;
     }
-    else if(game.input.mousePointer.isUp) {
+    else if(game.input.mousePointer.isUp || game.input.pointer1.isUp) {
       this.shrinkBee();
       this.bee.body.velocity.y = Bee.Velocity.DOWN;
     }
