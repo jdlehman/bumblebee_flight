@@ -1,10 +1,8 @@
-var splash;
-
 Game.Menu = function(game) {};
 
 Game.Menu.prototype = {
   create: function() {
-    splash = game.add.tileSprite(0, 0, 1024, 1024, 'splash');
+    game.add.tileSprite(0, 0, 1024, 1024, 'splash');
 
     var titleStyle = { font: "40px Griffy", fill: "#000000", align: "center" };
     var gameTitle = game.add.text(Win.WIDTH / 2, 50, 'Flight of the Bumblebee', titleStyle);
