@@ -136,7 +136,7 @@ Game.Play.prototype = {
     var passageMidpoint = this.lastMidpoint + delta;
 
     // if point is imposible, vary in opposite direction
-    if(passageMidpoint < (10 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 10)) {
+    if(passageMidpoint < (30 + passageHeight) || passageMidpoint > (Win.HEIGHT - passageHeight - 30)) {
       passageMidpoint = this.lastMidpoint - delta;
     }
 
