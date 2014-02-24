@@ -48,7 +48,7 @@ Game.Load.prototype = {
   },
 
   create: function() {
-    game.state.states['Menu'].menuTxt = 'Avoid the spiders!';
+    game.state.states['Menu'].menuTxt = 'Avoid the spiders!\nClick/touch and hold to fly.';
     game.state.start('Menu');
   }
 };
